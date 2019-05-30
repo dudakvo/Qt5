@@ -1,0 +1,30 @@
+#ifndef TRAFFICLIGHTS_H
+#define TRAFFICLIGHTS_H
+
+#include <QWidget>
+
+class QRadioButton;
+class QTimer;
+
+class TrafficLights : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit TrafficLights(QWidget *parent = nullptr);
+
+signals:
+
+public slots:
+    void TrafficLightsWork();
+    void TrafficLightsSwitch();
+
+
+private:
+    QRadioButton *mGreenRadioButton;
+    QRadioButton *mRedRadioButton;
+    QRadioButton *mOrangeRadioButton;
+    QTimer *mTrafficLightTimer;
+    bool mCicleStatus;
+};
+
+#endif // TRAFFICLIGHTS_H
