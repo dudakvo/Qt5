@@ -15,8 +15,9 @@ public:
 signals:
 
 public slots:
-    void TrafficLightsWork();
-    void TrafficLightsSwitch();
+    void startTrafficLightsWork();
+    void trafficLightsSwitch();
+    void stopTrafficLightsWork();
 
 
 private:
@@ -25,6 +26,7 @@ private:
     QRadioButton *mOrangeRadioButton;
     QTimer *mTrafficLightTimer;
     bool mCicleStatus;
+    bool mNoTraffic=true;
 };
 
 #endif // TRAFFICLIGHTS_H

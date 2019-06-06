@@ -5,6 +5,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include "QTimer"
+#include <QDebug>
 
 
 TrafficLights::TrafficLights(QWidget *parent) : QWidget(parent)
@@ -49,20 +50,51 @@ TrafficLights::TrafficLights(QWidget *parent) : QWidget(parent)
     setLayout(lVBoxLayout);
     setWindowTitle("Traffic Light Widget");
 
-    connect(lStartPushButton, SIGNAL(clicked()), this, SLOT(TrafficLightsWork()));
-    connect(mTrafficLightTimer, SIGNAL(timeout()), this)
-
-
+    connect(lStartPushButton, SIGNAL(clicked()), this, SLOT(startTrafficLightsWork()));
+    connect(lStopPushButton, SIGNAL(clicked()),this, SLOT(stopTrafficLightsWork()));
+    connect(mTrafficLightTimer, SIGNAL(timeout()), this, SLOT(trafficLightsSwitch()));
 }
 
-void TrafficLights::TrafficLightsWork()
+void TrafficLights::trafficLightsSwitch()
 {
+    if(mRedRadioButton->isChecked() == true)
+    {
+        qDebug()<<"1) Orange button "<<mOrangeRadioButton->isChecked()<<" mNoTraffic is "<<mNoTraffic;
+        qDebug()<<"2) Red button "<<mRedRadioButton->isChecked()<<" mNoTraffic is "<<mNoTraffic;
+        mOrangeRadioButton->setChecked(true);
+        mRedRadioButton->setChecked(false);
+        qDebug()<<"3) Orange button "<<mOrangeRadioButton->isChecked()<<" mNoTraffic is "<<mNoTraffic;
+
+    }
+    if((true == mOrangeRadioButton->isChecked()) && ( true == mNoTraffic))
+    {
+        qDebug()<<"4) Orange button "<<mOrangeRadioButton->isChecked()<<" mNoTraffic is "<<mNoTraffic;
+        mGreenRadioButton->setChecked(true);
+        mNoTraffic=false;
+    }
+    if(mGreenRadioButton->isChecked())
+    {
+        mOrangeRadioButton->setChecked(true);
+    }
+    if((true == mOrangeRadioButton->isChecked()) && (false == mNoTraffic))
+    {
+         qDebug()<<"3) Orange button "<<mGreenRadioButton->isChecked()<<" mNoTraffic is "<<mNoTraffic;
+        mRedRadioButton->setChecked(true);
+        mNoTraffic=true;
+    }
+}
+
+void TrafficLights::startTrafficLightsWork()
+{
+    mNoTraffic=true;
     mOrangeRadioButton->setChecked(true);
-    mGreenRadioButton->setChecked(true);
-    mRedRadioButton->setChecked(true);
+    mTrafficLightTimer->start();
+    qDebug()<<"timer start";
 }
 
-void TrafficLights::TrafficLightsSwitch()
+void TrafficLights::stopTrafficLightsWork()
 {
-
+    mTrafficLightTimer->stop();
+    mRedRadioButton->setChecked(true);
+    qDebug()<<"timer stop";
 }
